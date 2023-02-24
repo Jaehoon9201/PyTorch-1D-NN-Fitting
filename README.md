@@ -1,3 +1,5 @@
 # PyTorch-1D-NN-Fitting
 
-This project is for Hyunjun Lee.
+## Author : Jaehoon Shim
+
+This project is only for Hyunjun Lee.
