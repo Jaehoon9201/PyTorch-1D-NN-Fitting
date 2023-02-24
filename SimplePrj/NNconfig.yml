@@ -1,0 +1,29 @@
+#################################################
+
+CUDA: True
+GPU_ID: '0'
+ngpu: 1
+
+#################################################
+
+DATA_GENERATOR:
+    FLAG: False
+
+TRAIN:
+    FLAG: True
+    BATCH_SIZE: 2048
+    MAX_EPOCH: 40
+    TRAIN_ITER: 6
+    NORM: 'Standard'
+
+MODEL:
+    lr: 0.01
+    lr_decay: 0.96
+    steplr_decay: 0.5
+    NUM_INPUT: 3
+    NUM_NODES: 10
+#################################################
+
+
+
+
