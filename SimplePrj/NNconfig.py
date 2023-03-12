@@ -16,8 +16,8 @@ __C.ngpu = 1
 __C.TRAIN = edict()
 __C.TRAIN.FLAG = True
 __C.TRAIN.BATCH_SIZE = 2048
-__C.TRAIN.MAX_EPOCH = 40
-__C.TRAIN.TRAIN_ITER = 6
+__C.TRAIN.MAX_EPOCH = 20
+__C.TRAIN.TRAIN_ITER = 4
 __C.TRAIN.NORM = 'Standard'
 
 __C.DATA_GENERATOR = edict()
@@ -74,7 +74,7 @@ def cfg_from_file(filename):
     """
     import yaml
     with open(filename, 'r') as f:
-        yaml_cfg = edict(yaml.load(f))
+        yaml_cfg = edict(yaml.safe_load(f))
         # IF ERROR, CHANGE ABOVE LINE TO "yaml_cfg = edict(yaml.safe_load(f))"
 
     _merge_a_into_b(yaml_cfg, __C)

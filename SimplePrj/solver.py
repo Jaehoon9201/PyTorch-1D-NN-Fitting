@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 
 from torch.nn import functional as F
 from sklearn.decomposition import PCA
-from torch.utils.tensorboard import SummaryWriter
 import time
 import shutil
 from sklearn import metrics
@@ -88,7 +87,6 @@ def training(neuralnet, tot_train_dataset, dataset, epochs, batch_size, device,
 
     start_time = time.time()
     iteration = 0
-    writer = SummaryWriter()
     list_tot = []
 
     neuralnet = neuralnet.to(device)
@@ -126,7 +124,7 @@ def training(neuralnet, tot_train_dataset, dataset, epochs, batch_size, device,
             optimizer.step()
             scheduler.step()
 
-            list_tot.append(l_tot)
+            list_tot.append(l_tot.item())
             iteration += 1
 
         print("Train Iter %d   |   Epoch [%d / %d] (%d iteration)   |  Total:%.3f    |   lr_now :%.5f" \
@@ -147,8 +145,9 @@ def training(neuralnet, tot_train_dataset, dataset, epochs, batch_size, device,
 
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 def test(neuralnet, dataset, tot_test_dataset, dataset_for_MeanStd,
-         device, train_iter, file, test_csv):
-    f = file
+         device, train_iter, file):
+    # you can use 'file'
+    
     param_paths = glob.glob(os.path.join(PACK_PATH, "runs", "%d_params*" % (train_iter)))
     param_paths.sort()
 
@@ -195,5 +194,3 @@ def test(neuralnet, dataset, tot_test_dataset, dataset_for_MeanStd,
         y_model_opt_rescale  = utility.y_rescale(BeforeScaledy=realy_norm_pred, yUsedInOptima=optima_calcy, norm_mode_= NNcfg.TRAIN.NORM)
         calcy  = utility.y_rescale(BeforeScaledy=realy_norm, yUsedInOptima=optima_calcy, norm_mode_= NNcfg.TRAIN.NORM)
         Rescaled_RMSE_loss = np.sqrt(np.mean((y_model_opt_rescale.detach().cpu().numpy() - calcy.detach().cpu().numpy()) ** 2, axis=0))
-
-        f.write(str(train_iter)  + ',' + str(Normalized_RMSE_loss)+ ',' + str(Rescaled_RMSE_loss.item()) + '\n')

@@ -10,7 +10,6 @@ from pathlib import Path
 import math, random
 import torch
 import numpy as np
-from IPython.display import Audio
 from torch.utils.data import DataLoader, Dataset, random_split
 from torch.utils.data import random_split
 import torch.nn.functional as F
@@ -31,7 +30,6 @@ import datetime
 import dateutil.tz
 from NNconfig import NNcfg, cfg_from_file
 from preprocess_and_loader import Data_Loader
-from torchsummary import summary
 
 import yaml
 import argparse
@@ -59,6 +57,7 @@ pprint.pprint(NNcfg)
 os.environ['CUDA_VISIBLE_DEVICES'] = NNcfg.GPU_ID
 if (not (torch.cuda.is_available())): NNcfg.ngpu = 0
 device = torch.device("cuda" if (torch.cuda.is_available() and NNcfg.ngpu > 0) else "cpu")
+print('\n\n', 'Our device : ', device , '\n\n')
 now = datetime.datetime.now(dateutil.tz.tzlocal())
 timestamp = now.strftime('%Y_%m_%d_%H_%M_%S')
 output_dir = 'trained_model/%s_%s_%s' % (NNcfg.DATASET_NAME, NNcfg.CONFIG_NAME, timestamp)
@@ -66,12 +65,12 @@ output_dir = 'trained_model/%s_%s_%s' % (NNcfg.DATASET_NAME, NNcfg.CONFIG_NAME, 
 
 
 ##
-# @brief 이현준바보
-# @see 이현준바보
+# @brief
+# @see
 # @warning
-#  - 이현준바보
+#  -
 torch.cuda.empty_cache()
-def run(train_iter, test_csv, file):
+def run(train_iter, file):
 
     model = nn.NNmodel(device, num_input=NNcfg.MODEL.NUM_INPUT, num_nodes=NNcfg.MODEL.NUM_NODES)
     if NNcfg.TRAIN.FLAG == True :
@@ -83,7 +82,7 @@ def run(train_iter, test_csv, file):
     model = model.eval()
     solver.test(neuralnet=model, dataset=test_dataset,
                 tot_test_dataset=tot_test_dataset, dataset_for_MeanStd=tot_train_dataset,
-                device=device, train_iter=train_iter, file = file, test_csv= test_csv)
+                device=device, train_iter=train_iter, file = file)
 
 
 if __name__ == '__main__':
@@ -98,6 +97,6 @@ if __name__ == '__main__':
         = Data_Loader(tr_csv = train_csv, ts_csv = test_csv)
 
     for train_iter in range(0, NNcfg.TRAIN.TRAIN_ITER):
-        run(train_iter, test_csv, file = f)
+        run(train_iter, file = f)
 
     f.close()

@@ -12,7 +12,6 @@ import torch
 import torchaudio
 import numpy as np
 from torchaudio import transforms
-from IPython.display import Audio
 
 from torch.utils.data import DataLoader, Dataset, random_split
 import torchaudio
@@ -21,11 +20,7 @@ from torch.utils.data import random_split
 import torch.nn.functional as F
 from torch.nn import init
 import torch.nn as nn
-
 import sklearn
-import librosa
-import librosa.display
-
 from matplotlib import pyplot as plt
 from matplotlib.mlab import window_hanning, specgram
 from matplotlib.colors import LogNorm

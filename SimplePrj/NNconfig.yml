@@ -1,6 +1,6 @@
 #################################################
 
-CUDA: True
+CUDA: False
 GPU_ID: '0'
 ngpu: 1
 
@@ -12,8 +12,8 @@ DATA_GENERATOR:
 TRAIN:
     FLAG: True
     BATCH_SIZE: 2048
-    MAX_EPOCH: 40
-    TRAIN_ITER: 6
+    MAX_EPOCH: 20
+    TRAIN_ITER: 4
     NORM: 'Standard'
 
 MODEL:
