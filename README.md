@@ -26,7 +26,7 @@ gradients2 = torch.autograd.grad(output[0][1].to(device), x.to(device), grad_out
 
 ![image](https://github.com/Jaehoon9201/PyTorch-1D-NN-Fitting/assets/71545160/f5018cb4-8881-477f-b118-6860d0221a74)
 
-## ex_dydx_methodf2.py
+## ex_dydx_methodf2(not_recommended_without_cloning).py
 
 dydx = dydx3[0].detach().numpy()  == dydx2 = x.grad  
 
@@ -35,6 +35,20 @@ y[0][0].backward(retain_graph=True)
 dydx2 = x.grad  # cf. y.grad = dL/dy
 y[0][1].backward(retain_graph=True)
 dydx3 = x.grad  # cf. y.grad = dL/dy
+```
+
+## ex_dydx_methodf2(recommended_with_cloning).py
+
+dydx2[0].detach().numpy() + dydx3[0].detach().numpy()  
+== x.grad   
+== torch.autograd.grad(outputs=y, inputs=x)
+
+```python
+y[0][0].backward(retain_graph=True)
+dydx2 = x.grad.clone().detach().numpy()
+x.grad.zero_()
+y[0][1].backward(retain_graph=True)
+dydx3 = x.grad.clone().detach().numpy()
 ```
 
 ![image](https://github.com/Jaehoon9201/PyTorch-1D-NN-Fitting/assets/71545160/1d9b65f7-e2ba-4800-bbae-a5936e8b2c4c)
